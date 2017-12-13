@@ -52,9 +52,9 @@ def AuthenticateWithWLS(url):
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
         request.add_header("Authorization", "Basic %s" % base64string)
     except Exception as e:
-        print "Error in AuthenticateWithWLS()"
-        print "UNKNOWN: Failed to authenticate with Weblogic"
-        #print e
+        #print "Error in AuthenticateWithWLS()"
+        #print "UNKNOWN: Failed to authenticate with Weblogic"
+        print e
         sys.exit(EXIT_UNKNOWN)
 
     return request
