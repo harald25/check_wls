@@ -1,5 +1,3 @@
-# Testbranch
-
 #!/usr/bin/python
 import urllib2, json, base64, sys
 
@@ -67,9 +65,9 @@ def FetchAndParse(request):
             data = json.loads(response.read())
             return data
     except Exception as e:
-            #print "Error in FetchAndParse()"
-            #print "UNKNOWN: Failed to fetch URL and load JSON response"
-            print str(e)
+            print "Error in FetchAndParse()"
+            print "UNKNOWN: Failed to fetch URL and load JSON response"
+            #print str(e)
             sys.exit(EXIT_UNKNOWN)
 
 def StuckThreads(baseserver,warn, crit):
@@ -78,7 +76,7 @@ def StuckThreads(baseserver,warn, crit):
         critical_threshold = int(crit)
     except Exception as e:
         print "Error in StuckThreads() while setting crit and warn variables."
-        print "str(e)"
+        #print str(e)
         sys.exit(EXIT_UNKNOWN)
 
     try:
@@ -108,7 +106,7 @@ def StuckThreads(baseserver,warn, crit):
                 exit = EXIT_CRITICAL
 
         if exit == EXIT_OK:
-            result = "Everyting is OK!"
+            result = "OK! Number of stuck threads under warning limit"
         return (result,exit)
 
     except Exception as e:
@@ -129,7 +127,7 @@ def ServerHealth(baseserver):
                 result = result + server['name'] + " - state: " +server['health']['state'] + " - "
                 exit = EXIT_CRITICAL
         if exit == EXIT_OK:
-            result = "All servers are OK!"
+            result = "Server health is OK!"
 
         return(result,exit)
 
@@ -169,7 +167,7 @@ def TotalThread(baseserver, warn, crit):
                 result = "WARNING: "  + result
                 exit = EXIT_WARNING
         else:
-                result = "OK: " + result
+                result = "OK! " + result
 
         return (result, exit)
 
