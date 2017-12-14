@@ -52,9 +52,7 @@ def AuthenticateWithWLS(url):
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
         request.add_header("Authorization", "Basic %s" % base64string)
     except Exception as e:
-        #print "Error in AuthenticateWithWLS()"
-        #print "UNKNOWN: Failed to authenticate with Weblogic"
-        print e
+        print ("Error in AuthenticateWithWLS(): "), str(e))
         sys.exit(EXIT_UNKNOWN)
 
     return request
@@ -65,9 +63,7 @@ def FetchAndParse(request):
             data = json.loads(response.read())
             return data
     except Exception as e:
-            print "Error in FetchAndParse()"
-            print "UNKNOWN: Failed to fetch URL and load JSON response"
-            #print str(e)
+            print ("Error in FetchAndParse(): ", str(e))
             sys.exit(EXIT_UNKNOWN)
 
 def StuckThreads(baseserver,warn, crit):
@@ -75,13 +71,12 @@ def StuckThreads(baseserver,warn, crit):
         warning_threshold = int(warn)
         critical_threshold = int(crit)
     except Exception as e:
-        print "Error in StuckThreads() while setting crit and warn variables."
-        #print str(e)
+        print ("Error in StuckThreads() while setting crit and warn variables: ", str(e))
         sys.exit(EXIT_UNKNOWN)
 
     try:
         if warning_threshold >= critical_threshold:
-            print "Critical threshold must be higher than warning threshold"
+            print ("Critical threshold must be higher than warning threshold")
             sys.exit(EXIT_UNKNOWN)
 
         targeturl1 = baseserver + "/management/wls/latest/servers"
@@ -110,8 +105,7 @@ def StuckThreads(baseserver,warn, crit):
         return (result,exit)
 
     except Exception as e:
-        print "Error in StuckThreads()"
-        print str(e)
+        print ("Error in StuckThreads(): ",str(e))
         sys.exit(EXIT_UNKNOWN)
 
 def ServerHealth(baseserver):
@@ -132,8 +126,7 @@ def ServerHealth(baseserver):
         return(result,exit)
 
     except Exception as e:
-        print "Error in ServerHealth()"
-        print str(e)
+        print ("Error in ServerHealth()",str(e))
         sys.exit(EXIT_UNKNOWN)
 
 def TotalThread(baseserver, warn, crit):
@@ -142,13 +135,12 @@ def TotalThread(baseserver, warn, crit):
         critical_threshold = int(crit)
         warning_threshold = int(warn)
     except Exception as e:
-        print "Error in TotalThread() while setting crit and warn variables."
-        print str(e)
+        print ("Error in TotalThread() while setting crit and warn variables: ", str(e))
         sys.exit(EXIT_UNKNOWN)
 
     try:
         if warning_threshold >= critical_threshold:
-            print "Critical threshold must be higher than warning threshold"
+            print ("Critical threshold must be higher than warning threshold")
             sys.exit(EXIT_UNKNOWN)
 
         targeturl = baseserver + "/management/wls/latest"
@@ -172,8 +164,7 @@ def TotalThread(baseserver, warn, crit):
         return (result, exit)
 
     except Exception as e:
-        print "Error in TotalThread()"
-        print str(e)
+        print ("Error in TotalThread()", str(e))
         sys.exit(EXIT_UNKNOWN)
 
 
