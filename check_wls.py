@@ -52,7 +52,7 @@ def AuthenticateWithWLS(url):
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
         request.add_header("Authorization", "Basic %s" % base64string)
     except Exception as e:
-        print ("Error in AuthenticateWithWLS(): "), str(e))
+        print ("Error in AuthenticateWithWLS(): ", str(e))
         sys.exit(EXIT_UNKNOWN)
 
     return request
