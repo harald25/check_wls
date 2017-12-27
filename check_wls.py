@@ -87,6 +87,10 @@ def StuckThreads(baseserver,warn, crit):
         result = ""
 
         for server in data1['items']:
+            if server['state'] != "running":
+                print ("CRITICAL! Some servers are not running!")
+                sys.exit(EXIT_CRITICAL)
+
             targeturl2 = baseserver + "/management/weblogic/latest/domainRuntime/serverRuntimes/"+server['name']+"/threadPoolRuntime"
             request2 = AuthenticateWithWLS(targeturl2)
             data2 = FetchAndParse(request2)
@@ -117,8 +121,12 @@ def ServerHealth(baseserver):
         result = ""
 
         for server in data['items']:
-            if str(server['health']['state']) != "ok":
-                result = result + server['name'] + " - state: " +server['health']['state'] + " - "
+            if 'health' in server:
+                if str(server['health']['state']) != "ok":
+                    result = result + server['name'] + " - state: " +server['health']['state'] + " - "
+                    exit = EXIT_CRITICAL
+            else:
+                result = "CRITICAL! Unable to retrieve server health status from one or more servers!"
                 exit = EXIT_CRITICAL
         if exit == EXIT_OK:
             result = "Server health is OK!"
